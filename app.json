@@ -1,0 +1,49 @@
+{
+  "expo": {
+    "name": "Unitevent",
+    "slug": "Unite",
+    "scheme": "unitevent",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/App.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/images/Splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "splash": {
+        "image": "./assets/images/Splash.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#ffffff"
+      },
+      "bundleIdentifier": "com.dailly.Unite"
+    },
+    "android": {
+      "versionCode": 2,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/IconApp.png",
+        "backgroundColor": "#ffffff"
+      },
+      "splash": {
+        "image": "./assets/images/Splash.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.dailly.Unite"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "836d8deb-a8e9-4752-9bac-f35ecdd89c17"
+      }
+    }
+  }
+}
