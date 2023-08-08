@@ -77,7 +77,7 @@ const AssistanceScreen = () => {
   const showPopupForTwoSeconds = () => {
     AsyncStorage.getItem('userInfo').then((res) => {
       const userInfo = JSON.parse(res);
-      const API_KEY = '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';
+      const API_KEY = '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';
             const API_URL = 'https://api.sendgrid.com/v3/mail/send';
 
             // Données de l'e-mail à envoyer
