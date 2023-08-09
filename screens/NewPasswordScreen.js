@@ -1,7 +1,7 @@
 import React, { useState, useRef} from 'react';
 import { View, Text,  StatusBar, SafeAreaView, TouchableOpacity, KeyboardAvoidingView, Image, Animated, Modal } from 'react-native';
 import {COLORS, SIZES} from '.././constants/theme'
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, CommonActions } from '@react-navigation/native';
 import { useCustomFonts } from '../constants/fonts';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -107,14 +107,24 @@ const NewPasswordScreen = () => {
     setTimeout(() => {
       setShowPopup(false);
       clearInterval(intervalId); 
-      navigation.navigate('LoginScreen');
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'LoginScreen' }],
+        })
+      );
     }, 3000);
   };
 
   const closePopup = () => {
     setShowPopup(false);
     setTimer(5);
-    navigation.navigate('LoginScreen');
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'LoginScreen' }],
+      })
+    );
   };
 
   const newPassword = async () =>{

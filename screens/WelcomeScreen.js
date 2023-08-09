@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Text, Image, ImageBackground, StatusBar, SafeAreaView, TouchableOpacity, Animated } from 'react-native';
 import {COLORS, SIZES} from '.././constants/theme'
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useNavigation, useFocusEffect, CommonActions } from '@react-navigation/native';
 import { useCustomFonts } from '../constants/fonts';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -26,13 +26,28 @@ const WelcomeScreen = () => {
       const cookiePassword = await AsyncStorage.getItem('cookiePassword');
   
       if (cookieEmail && cookiePassword) {
-        navigation.navigate('Home');
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: 'Home' }],
+          })
+        );
       } else {
-        navigation.navigate('LoginScreen');
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: 'LoginScreen' }],
+          })
+        );
       }
     } catch (error) {
       console.log('Error occurred:', error);
-      navigation.navigate('LoginScreen');
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'LoginScreen' }],
+        })
+      );
     }
   };
   useFocusEffect( 
@@ -41,9 +56,19 @@ const WelcomeScreen = () => {
         AsyncStorage.getItem('cookiePassword').then((cookiePassword) => {
           AsyncStorage.getItem('compte').then((compte) => {
             if (cookieEmail && cookiePassword) {
-              navigation.navigate('Home');
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{ name: 'Home' }],
+                })
+              );
             }else if(compte){
-              navigation.navigate('LoginScreen');
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{ name: 'LoginScreen' }],
+                })
+              );
             }
           })
         })

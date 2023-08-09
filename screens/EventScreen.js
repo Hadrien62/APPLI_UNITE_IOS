@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { View, Text, StatusBar, SafeAreaView, Animated, TouchableOpacity, ScrollView, Dimensions, Pressable, FlatList, ActivityIndicator, RefreshControl } from 'react-native';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useNavigation, useFocusEffect, CommonActions } from '@react-navigation/native';
 import { COLORS, SIZES } from '../constants/theme';
 import { useCustomFonts } from '../constants/fonts';
 import { Ionicons } from '@expo/vector-icons';

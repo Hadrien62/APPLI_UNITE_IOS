@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { View, TextInput, Text, StatusBar, SafeAreaView, TouchableOpacity, Animated, ScrollView, Dimensions, KeyboardAvoidingView, Image, Modal } from 'react-native';
 import { COLORS, SIZES } from '.././constants/theme'
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, CommonActions } from '@react-navigation/native';
 import { useCustomFonts } from '../constants/fonts';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -174,14 +174,24 @@ const LoginScreen = () => {
     setTimeout(() => {
       setShowPopup(false);
       clearInterval(intervalId); 
-      navigation.navigate('Home');
+      navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{ name: 'Home' }],
+                })
+              );
     }, 3000);
   };
 
   const closePopup = () => {
     setShowPopup(false);
     setTimer(5);
-    navigation.navigate('Home');
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'Home' }],
+      })
+    );
   };
 
   useEffect(() => {
@@ -302,12 +312,10 @@ const LoginScreen = () => {
   {/* Fonction connexion*/ }
   const onSignInPressed = async () => {
     try {
-     
       if (email === '' || password === '') {
         handleShowPopup()
       } else {
         let number = -1;
-     
         const emailWithoutSpace = email.replace(/\s+$/, '');
         for (let i = 0; i <= emails2.length; ++i) {
          
@@ -320,10 +328,16 @@ const LoginScreen = () => {
           handleShowPopup2();
           return;
         }
-
-        for (let index = 0; index < passwords.length; index++) {
+        let trouve = false;
+        let index;
+        for (index = 0; index < passwords.length; index++) {
           if (SHA256(password).toString() === passwords[number]) {
-
+            trouve = true;
+          }
+        }
+        if(trouve === false && index === passwords.length){
+          handleShowPopup();
+        }else if(trouve === true){
             const userInfoURL = "http://195.20.234.70:3000/connexion/" + email;
 
             var requestOptionsInfoUser = {
@@ -331,45 +345,42 @@ const LoginScreen = () => {
               redirect: "follow",
             };
 
-            try {
-              const response = await fetch(userInfoURL, requestOptionsInfoUser);
-              const result = await response.text();
+            fetch(userInfoURL, requestOptionsInfoUser)
+            .then((response) => response.text())
+            .then((result) => {
               const infoUser = JSON.parse(result);
-
               setUserInfo(infoUser);
-
-              AsyncStorage.setItem('userInfo', JSON.stringify(infoUser))
+          
+              return AsyncStorage.setItem('userInfo', JSON.stringify(infoUser))
                 .then(() => {
                   setValidEmail(true);
                   setValidMdp(true);
+          
                   if (remember) {
-                    try {
-                      AsyncStorage.setItem('cookieEmail', email).then(() => {
-                        AsyncStorage.setItem('cookiePassword', password).then(() => {
-                        })
-                          .catch((error) => {
-                          });
-                      })
-                        .catch((error) => {
-                        });
-
-                    } catch (error) {
-                    }
+                    return AsyncStorage.setItem('cookieEmail', email)
+                      .then(() => AsyncStorage.setItem('cookiePassword', password))
+                      .catch((error) => {
+                      });
                   }
-                  navigation.navigate('Home');
+                })
+                .then(() => {
+                  navigation.dispatch(
+                    CommonActions.reset({
+                      index: 0,
+                      routes: [{ name: 'Home' }],
+                    })
+                  );
                 })
                 .catch((error) => {
                 });
-            } catch (error) {
-            }
-          } else {
-            handleShowPopup();
-          }
-        }
+            })
+            .catch((error) => {
+            });          
       }
-    } catch (error) {
-      handleShowPopup()
     }
+  }catch (error) {
+    handleShowPopup()
+  }
   };
 
 
@@ -449,7 +460,12 @@ const LoginScreen = () => {
           showPopupForTwoSeconds();
           AsyncStorage.setItem('userInfo', JSON.stringify(response.data)).then(() => {
             AsyncStorage.setItem('compte', 'deja un compte').then(() => {
-              navigation.navigate('Home');
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{ name: 'Home' }],
+                })
+              );
             })
           })
         })
