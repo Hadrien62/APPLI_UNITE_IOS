@@ -618,7 +618,7 @@ export default function ProfilScreen() {
                                                 onPress={() => setShowPopup3(false)}>
                                                 <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.7)', justifyContent: 'center', alignItems: 'center' }}>
                                                 <View style={{ backgroundColor: COLORS.white, padding: 20, borderRadius: 10, marginHorizontal: 50 }}>
-                                                    <Text style={{ fontSize: SIZES.xMedium, textTransform: 'uppercase', fontFamily: 'MonumentExtended-Ultrabold', color: COLORS.secondary, marginBottom: 10 }}>Code Copied!</Text>
+                                                    <Text style={{ fontSize: SIZES.xMedium, textTransform: 'uppercase', fontFamily: 'MonumentExtended-Ultrabold', color: COLORS.valid, marginBottom: 10 }}>Promo Code Copied!</Text>
                                                     <Text style={{ fontSize: SIZES.xMedium, fontFamily: 'SpaceGrotesk-Bold', color: COLORS.tertary, marginBottom: 20 }}>You can send them to your friend to earn some points!</Text>
                                                     <View style={{ justifyContent: 'center', alignItems: 'center', }}>
                                                     <Image source={require('../assets/images/Check.png')} style={{ width: 100, height: 100 }} />
