@@ -65,6 +65,7 @@ export default function ProfilScreen() {
     const [showPopup, setShowPopup] = useState(false);
     const [showPopup1, setShowPopup1] = useState(false);
     const [showPopup2, setShowPopup2] = useState(false);
+    const [showPopup3, setShowPopup3] = useState(false);
     const handleIncreasePoint = () => {
         setShowPopup(true);
         if (point < 100) {
@@ -213,6 +214,7 @@ export default function ProfilScreen() {
     {/* Copie/Partage Code promo */ }
     const handleCopyCode = (codePromo) => {
         Clipboard.setString(codePromo);
+        setShowPopup3(true);
     };
     const handleShareCode = async (codePromo) => {
         try {
@@ -606,6 +608,29 @@ export default function ProfilScreen() {
                                         </TouchableOpacity>
                                     </Modal>
                                 )}
+                                {showPopup3 && (
+                                        (() => {
+                                        return (
+                                            <Modal style={{ zIndex: 9999 }} transparent={true} animationType="fade">
+                                            <TouchableOpacity
+                                                style={{ flex: 1 }}
+                                                activeOpacity={1}
+                                                onPress={() => setShowPopup3(false)}>
+                                                <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.7)', justifyContent: 'center', alignItems: 'center' }}>
+                                                <View style={{ backgroundColor: COLORS.white, padding: 20, borderRadius: 10, marginHorizontal: 50 }}>
+                                                    <Text style={{ fontSize: SIZES.xMedium, textTransform: 'uppercase', fontFamily: 'MonumentExtended-Ultrabold', color: COLORS.secondary, marginBottom: 10 }}>Code Copied!</Text>
+                                                    <Text style={{ fontSize: SIZES.xMedium, fontFamily: 'SpaceGrotesk-Bold', color: COLORS.tertary, marginBottom: 20 }}>You can send them to your friend to earn some points!</Text>
+                                                    <View style={{ justifyContent: 'center', alignItems: 'center', }}>
+                                                    <Image source={require('../assets/images/Check.png')} style={{ width: 100, height: 100 }} />
+                                                    </View>
+                                                </View>
+                                                </View>
+                                            </TouchableOpacity>
+                                            </Modal>
+                                        );
+                                        })()
+                                    )
+                                }
                             </Animated.View>
                         </ScrollView>
                     </View>
