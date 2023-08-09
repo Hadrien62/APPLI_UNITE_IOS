@@ -65,7 +65,38 @@ export default function ProfilScreen() {
     const [showPopup, setShowPopup] = useState(false);
     const [showPopup1, setShowPopup1] = useState(false);
     const [showPopup2, setShowPopup2] = useState(false);
-    const [showPopup3, setShowPopup3] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
+    const animation = useRef(new Animated.Value(0)).current;
+
+    const handleShowPopup = () => {
+        setIsVisible(true);
+        Animated.timing(animation, {
+          toValue: 1,
+          duration:250,
+          useNativeDriver: false,
+        }).start(() => {
+          setTimeout(() => {
+            handleHidePopup();
+          }, 2500);
+        });
+      };
+      const handleHidePopup = () => {
+        Animated.timing(animation, {
+          toValue: 0,
+          duration:250,
+          useNativeDriver: false,
+        }).start(() => {
+          setIsVisible(false);
+        });
+      };
+      const interpolateY = animation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [30, 0],
+      });
+      const interpolateOpacity = animation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, 1],
+      });
     const handleIncreasePoint = () => {
         setShowPopup(true);
         if (point < 100) {
@@ -214,7 +245,7 @@ export default function ProfilScreen() {
     {/* Copie/Partage Code promo */ }
     const handleCopyCode = (codePromo) => {
         Clipboard.setString(codePromo);
-        setShowPopup3(true);
+        handleShowPopup();
     };
     const handleShareCode = async (codePromo) => {
         try {
@@ -608,34 +639,17 @@ export default function ProfilScreen() {
                                         </TouchableOpacity>
                                     </Modal>
                                 )}
-                                {showPopup3 && (
-                                        (() => {
-                                        return (
-                                            <Modal style={{ zIndex: 9999 }} transparent={true} animationType="fade">
-                                            <TouchableOpacity
-                                                style={{ flex: 1 }}
-                                                activeOpacity={1}
-                                                onPress={() => setShowPopup3(false)}>
-                                                <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.7)', justifyContent: 'center', alignItems: 'center' }}>
-                                                <View style={{ backgroundColor: COLORS.white, padding: 20, borderRadius: 10, marginHorizontal: 50 }}>
-                                                    <Text style={{ fontSize: SIZES.xMedium, textTransform: 'uppercase', fontFamily: 'MonumentExtended-Ultrabold', color: COLORS.valid, marginBottom: 10 }}>Promo Code Copied!</Text>
-                                                    <Text style={{ fontSize: SIZES.xMedium, fontFamily: 'SpaceGrotesk-Bold', color: COLORS.tertary, marginBottom: 20 }}>You can send them to your friend to earn some points!</Text>
-                                                    <View style={{ justifyContent: 'center', alignItems: 'center', }}>
-                                                    <Image source={require('../assets/images/Check.png')} style={{ width: 100, height: 100 }} />
-                                                    </View>
-                                                </View>
-                                                </View>
-                                            </TouchableOpacity>
-                                            </Modal>
-                                        );
-                                        })()
-                                    )
-                                }
                             </Animated.View>
                         </ScrollView>
                     </View>
                 </SafeAreaView>
             </ScrollView>
+            {isVisible && (
+          <Animated.View style={{ position: 'absolute', bottom: 55, width: '85%', paddingHorizontal: 15, marginHorizontal:25, paddingVertical:10,backgroundColor: 'rgba(0, 0, 0, 0.8)', borderRadius: 25,flexDirection:'row', alignItems:'center', transform: [{ translateY: interpolateY }], opacity: interpolateOpacity}} >
+          <Ionicons name="checkmark-circle-outline" size={SIZES.xLarge} color={COLORS.valid} style={{marginRight:5}}/>
+            <Text style={{color:COLORS.white,fontSize: SIZES.medium, fontFamily: 'SpaceGrotesk-Bold', marginRight: 25 }}>Promo Code Copied</Text>
+          </Animated.View>
+        )}
         </LinearGradient>
     );
 }

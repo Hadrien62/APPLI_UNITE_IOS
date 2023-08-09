@@ -7,6 +7,7 @@ const COLORS = {
     error:"#ff5166", // Red
     white: "#FFF", // White
     black: "#000", // Black
+    valid: "#1CCD17",//Green
   };
   
   const SIZES = {
