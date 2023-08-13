@@ -22,7 +22,8 @@
         "resizeMode": "contain",
         "backgroundColor": "#ffffff"
       },
-      "bundleIdentifier": "com.dailly.Unite"
+      "bundleIdentifier": "com.dailly.Unite",
+      "buildNumber":"2"
     },
     "android": {
       "versionCode": 2,
